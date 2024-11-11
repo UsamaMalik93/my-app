@@ -1,4 +1,3 @@
-// Service module (imports, controllers, providers)
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ServiceController } from './service.controller';
