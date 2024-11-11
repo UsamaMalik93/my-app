@@ -1,9 +1,9 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Package } from './package.schema';
+import { InjectModel } from '@nestjs/mongoose';
 import { CreatePackageDto } from './dto/create.package.dto';
 import { ServiceService } from '../services/service.service';
+import { Injectable, NotFoundException } from '@nestjs/common';
 
 @Injectable()
 export class PackageService {
@@ -47,7 +47,7 @@ export class PackageService {
   async findOne(id: string): Promise<Package> {
     const packageData = await this.packageModel.findById(id).populate('services').exec();
     if (!packageData) 
-      throw new NotFoundException(`Package with ID ${id} not found`);
+      throw new NotFoundException(`Package having ID ${id} not found`);
     
     return packageData;
   }
@@ -65,11 +65,11 @@ export class PackageService {
       if (service) {
         serviceIds.push(service._id);
       } else {
-        throw new NotFoundException(`Service with name ${serviceName} not found`);
+        throw new NotFoundException(`Service having name ${serviceName} not found`);
       }
     }
 
-    // Update the package with the mapped service ObjectIds
+    // Update the package having the mapped service ObjectIds
     const updatedPackage = await this.packageModel.findByIdAndUpdate(
       id,
       { ...updateData, services: serviceIds },
@@ -77,7 +77,7 @@ export class PackageService {
     ).exec();
 
     if (!updatedPackage) 
-      throw new NotFoundException(`Package with ID ${id} not found`);
+      throw new NotFoundException(`Package having ID ${id} not found`);
 
     return updatedPackage;
   }
@@ -87,7 +87,7 @@ export class PackageService {
   async remove(id: string): Promise<Package> {
     const packageData = await this.packageModel.findByIdAndDelete(id).exec();
     if (!packageData) 
-      throw new NotFoundException(`Package with ID ${id} not found`);
+      throw new NotFoundException(`Package having ID ${id} not found`);
     
     return packageData;
   }
