@@ -1,3 +1,4 @@
+import { Optional } from '@nestjs/common';
 import { IsString, IsArray,IsNotEmpty, IsMongoId } from 'class-validator';
 
 export class CreatePackageDto {
@@ -6,9 +7,10 @@ export class CreatePackageDto {
   name: string;
 
   @IsString()
+  @Optional()
   description: string;
 
   @IsArray()
-  @IsMongoId({ each: true })//to validate each id in arrray is valid Mongo objectId
-  services: string[];  //this is to accept array of ids for each services
+  @IsString({ each: true }) // Each element should be a string (service name)
+  services: string[];  // This will accept an array of service names
 }

@@ -1,4 +1,3 @@
-// package.module.ts
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PackageService } from './package.service';
