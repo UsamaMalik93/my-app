@@ -2,7 +2,7 @@
 import { Service } from './service.schema';
 import { ServiceService } from './service.service';
 import { CreateServiceDto } from './dto/create-service.dto';
-import { Controller, Get, Post, Body, Param, Delete, Put } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, Query, Patch } from '@nestjs/common';
 
 @Controller('services')
 export class ServiceController {
@@ -14,8 +14,11 @@ export class ServiceController {
   }
 
   @Get()
-  findAll(): Promise<Service[]> {
-    return this.serviceService.findAll();
+  async findAll(
+    @Query('page') page: number = 1,    
+    @Query('limit') limit: number = 10,  
+  ): Promise<{ data: Service[], total: number }> {
+    return this.serviceService.findAll(page, limit);
   }
 
   @Get(':id')
@@ -23,9 +26,12 @@ export class ServiceController {
     return this.serviceService.findOne(id);
   }
 
-  @Put(':id')
-  update(@Param('id') id: string, @Body() updateServiceDto: CreateServiceDto): Promise<Service> {
-    return this.serviceService.update(id, updateServiceDto);
+  @Patch(':id')
+  updatePartial(
+    @Param('id') id: string, 
+    @Body() updateServiceDto: CreateServiceDto
+  ): Promise<Service> {
+    return this.serviceService.updatePartial(id, updateServiceDto);
   }
 
   @Delete(':id')

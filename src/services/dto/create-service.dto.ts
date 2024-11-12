@@ -9,6 +9,5 @@ export class CreateServiceDto {
   description: string;
 
   @IsNumber()
-  @IsNotEmpty()
   price: number;
 }
